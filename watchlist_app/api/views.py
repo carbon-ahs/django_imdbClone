@@ -30,13 +30,13 @@ class StreamPlatformAV(APIView):
         serializer = StreamPlatformSerializer(stream_platform)
         return Response(serializer.data)
 
-    def put(self, request, pk): # eta kaj kore na. need help
+    def put(self, request, pk): 
         try:
             stream_platform = StreamPlatform.objects.get(pk=pk)
         except:
             return Response({}, status=status.HTTP_404_NOT_FOUND)
         
-        serializer = StreamPlatformSerializer(data=request.data)
+        serializer = StreamPlatformSerializer(stream_platform, data=request.data)
 
         if serializer.is_valid():
             serializer.save()

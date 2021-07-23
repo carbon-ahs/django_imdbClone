@@ -1,3 +1,4 @@
+#test
 from watchlist_app.api.serializers import StreamPlatformSerializer
 from django.shortcuts import render
 from rest_framework import serializers

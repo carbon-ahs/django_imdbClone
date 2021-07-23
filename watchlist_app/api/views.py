@@ -1,5 +1,4 @@
-#test
-from watchlist_app.api.serializers import StreamPlatformSerializer
+from watchlist_app.api.serializers import StreamPlatformSerializer, WatchListSerializer
 from django.shortcuts import render
 from rest_framework import serializers
 from rest_framework.views import APIView
@@ -46,3 +45,22 @@ class StreamPlatformAV(APIView):
             return Response({}, status=status.HTTP_406_NOT_ACCEPTABLE)
         
     
+    
+class AllWatchListAV(APIView):
+    def get(self, request):
+        try:
+            all_watch_lists = WatchList.objects.all()
+        except:
+            return Response({}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = WatchListSerializer(all_watch_lists, many=True)
+        return Response(serializer.data)
+
+    def post(self, request):
+        serializer = WatchListSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        else:
+            return Response(serializer.errors)
+        

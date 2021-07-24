@@ -64,3 +64,28 @@ class AllWatchListAV(APIView):
         else:
             return Response(serializer.errors)
         
+
+class WatchListAV(APIView):
+    def get(self, request, pk):
+        try:
+            watch_list = WatchList.objects.get(pk=pk)
+        except:
+            return Response({}, status=status.HTTP_404_NOT_FOUND)
+        
+        serializer = WatchListSerializer(watch_list)
+        return Response(serializer.data)
+
+    def put(self, request, pk): 
+        try:
+            watch_list = WatchList.objects.get(pk=pk)
+        except:
+            return Response({}, status=status.HTTP_404_NOT_FOUND)
+        
+        serializer = WatchListSerializer(watch_list, data=request.data)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
+        else:
+            return Response({}, status=status.HTTP_406_NOT_ACCEPTABLE)
+        

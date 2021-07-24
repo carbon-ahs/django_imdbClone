@@ -1,10 +1,12 @@
-from watchlist_app.api.serializers import StreamPlatformSerializer, WatchListSerializer
 from django.shortcuts import render
+
 from rest_framework import serializers
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+
 from watchlist_app.models import WatchList, StreamPlatform
+from watchlist_app.api.serializers import StreamPlatformSerializer, WatchListSerializer
 
 class StreamPlatformListAV(APIView):
     def get(self, request):

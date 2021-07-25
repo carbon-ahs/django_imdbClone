@@ -4,9 +4,56 @@ from rest_framework import serializers
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework import generics
+from rest_framework import mixins
+from rest_framework import viewsets
 
-from watchlist_app.models import WatchList, StreamPlatform
-from watchlist_app.api.serializers import StreamPlatformSerializer, WatchListSerializer
+from watchlist_app.models import WatchList, StreamPlatform, Reviwe
+from watchlist_app.api.serializers import ReviewSerializer, StreamPlatformSerializer, WatchListSerializer
+
+class ReviewDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Reviwe.objects.all()
+    serializer_class = ReviewSerializer
+
+class ReviewListCV(generics.ListAPIView):
+    # queryset = Reviwe.objects.all()
+    serializer_class = ReviewSerializer
+
+    def get_queryset(self):
+        pk = self.kwargs['pk']
+        return Reviwe.objects.filter(watchlist = pk)
+
+
+class ReviewCreateCV(generics.CreateAPIView):
+    serializer_class = ReviewSerializer
+
+    def perform_create(self, serializer):
+        pk = self.kwargs.get('pk')
+        watchlist = WatchList.objects.get(pk=pk)
+
+        serializer.save(watchlist = watchlist)
+
+class ReviewList(mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView):
+    queryset = Reviwe.objects.all()
+    serializer_class = ReviewSerializer
+
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+
+
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
+    
+
+class StreamPlatformVS(viewsets.ModelViewSet):
+    queryset = StreamPlatform.objects.all()
+    serializer_class = StreamPlatformSerializer
+    
+        
+
+
+
+
 
 class StreamPlatformListAV(APIView):
     def get(self, request):

@@ -7,6 +7,7 @@ class ReviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Reviwe
         fields = '__all__'
+        #exclude = ('watchlist',)
 
 
 class WatchListSerializer(serializers.ModelSerializer):

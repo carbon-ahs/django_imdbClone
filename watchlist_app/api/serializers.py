@@ -4,6 +4,7 @@ from watchlist_app.models import WatchList, StreamPlatform, Reviwe
 
 
 class ReviewSerializer(serializers.ModelSerializer):
+    reviwe_user = serializers.StringRelatedField(read_only = True)
     class Meta:
         model = Reviwe
         fields = '__all__'

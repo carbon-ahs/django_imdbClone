@@ -18,6 +18,6 @@ urlpatterns = [
     # path('reviewlist/', views.ReviewList.as_view(), name='reviewlist'),
     # path('reviewdetail/<int:pk>', views.ReviewDetail.as_view(), name='review'),
     path('watchlist/<int:pk>/reviewlist/', views.ReviewListCV.as_view(), name='reviewlist'),
-    path('watchlist/<int:pk>/review-create/', views.ReviewCreateCV.as_view(), name='reviewlist'),
+    path('watchlist/<int:pk>/review-create/', views.ReviewCreateCV.as_view(), name='review'),
 
 ] 

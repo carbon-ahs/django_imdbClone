@@ -24,6 +24,7 @@ class WatchList(models.Model):
         return self.title
 
 class Reviwe(models.Model):
+    reviw_user = models.ForeignKey(User, on_delete=CASCADE)
     rating = models.PositiveIntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
     decsription = models.CharField(max_length=200, null=True)
     watchlist = models.ForeignKey(WatchList, on_delete=CASCADE, related_name='reviews')

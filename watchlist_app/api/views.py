@@ -7,6 +7,7 @@ from rest_framework import status
 from rest_framework import generics
 from rest_framework import mixins
 from rest_framework import viewsets
+from rest_framework.exceptions import ValidationError
 
 from watchlist_app.models import WatchList, StreamPlatform, Reviwe
 from watchlist_app.api.serializers import ReviewSerializer, StreamPlatformSerializer, WatchListSerializer
@@ -27,14 +28,23 @@ class ReviewListCV(generics.ListAPIView):
 class ReviewCreateCV(generics.CreateAPIView):
     serializer_class = ReviewSerializer
 
+    def get_queryset(self):
+        return Reviwe.objects.all()
+
     def perform_create(self, serializer):
         pk = self.kwargs.get('pk')
         watchlist = WatchList.objects.get(pk=pk)
+        
+        reviw_user = self.request.user
+        review_queryset = Reviwe.objects.filter(watchlist=watchlist, reviw_user=reviw_user)
 
-        serializer.save(watchlist = watchlist)
+        if review_queryset.exists():
+            raise ValidationError('Already Reviewed Show!!!')
+
+        serializer.save(watchlist = watchlist, reviw_user = reviw_user)
 
 class ReviewList(mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView):
-    queryset = Reviwe.objects.all()
+    queryset = Reviwe.objects.all() 
     serializer_class = ReviewSerializer
 
     def get(self, request, *args, **kwargs):

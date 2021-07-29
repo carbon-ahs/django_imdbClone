@@ -15,6 +15,8 @@ urlpatterns = [
     path('watchlists/', views.AllWatchListAV.as_view(), name='watchlists'),
     path('watchlist/<int:pk>', views.WatchListAV.as_view(), name='watchlist'),
     
+    # i messed up here
+
     # path('reviewlist/', views.ReviewList.as_view(), name='reviewlist'),
     # path('reviewdetail/<int:pk>', views.ReviewDetail.as_view(), name='review'),
     path('watchlist/<int:pk>/reviewlist/', views.ReviewListCV.as_view(), name='reviewlist'),

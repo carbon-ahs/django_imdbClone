@@ -61,10 +61,6 @@ class StreamPlatformVS(viewsets.ModelViewSet):
     
         
 
-
-
-
-
 class StreamPlatformListAV(APIView):
     def get(self, request):
         stream_platforms = StreamPlatform.objects.all()
@@ -147,4 +143,5 @@ class WatchListAV(APIView):
             return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
         else:
             return Response({}, status=status.HTTP_406_NOT_ACCEPTABLE)
+        
         
